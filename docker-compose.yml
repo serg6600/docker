@@ -1,0 +1,36 @@
+version: "3.9"
+services:
+
+  db:
+    image: mysql
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: test
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+    ports: 
+      - 3306:3306
+    volumes:
+      - ./sql_data:/var/lib/mysql
+
+  composer:
+    image: composer/composer
+
+  php-apache:
+    image: php:7.2-apache
+    container_name: php-apache
+    volumes:
+      - ./php:/var/www/html
+    ports:
+      - 80:80
+
+  phpmyadmin:
+    image: phpmyadmin
+    ports:
+        - 8888:8888
+    environment:
+        PMA_HOST: mysql
+        MYSQL_ROOT_PASSWORD: root
+        MYSQL_USER: admin
+        MYSQL_PASSWORD: admin
